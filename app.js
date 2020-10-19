@@ -6,18 +6,41 @@ var App = () => (
   </div>
 );
 
-var GroceryListLItem = (props) => (
-  <li>{props.el}</li>
-)
+class GroceryListItem extends React.Component {
+  constructor(props) {
+    super(props);
 
-function GroceryList(props) {
-  return (
-    <ul>
-      {props.groceries.map((el)=> (
-        <GroceryListLItem el = {el}/>
-      ))}
-    </ul>
-  );
+    this.state = {
+      hover: false
+    };
+  }
+
+  toggleHover() {
+    this.setState({
+      hover: !this.state.hover
+    });
+  }
+
+  render() {
+    var style = {
+      // if (this.state.hover) {
+      //   style = {textDecoration: 'bold'}
+      // }
+      fontWeight: this.state.hover ? 'bold' : 'normal'
+    };
+
+    return (
+      <li style={style} onMouseEnter={this.toggleHover.bind(this)} onMouseLeave={this.toggleHover.bind(this)}>{this.props.groceries}</li>
+    );
+  };
 }
+
+var GroceryList = (props) => (
+  <ul>
+    {props.groceries.map((groceries)=> (
+      <GroceryListItem groceries = {groceries}/>
+    ))}
+  </ul>
+);
 
 ReactDOM.render(<App />, document.getElementById("app"));
